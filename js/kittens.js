@@ -25,10 +25,6 @@ var images = {};
     images[imgName] = img;
 });
 
-
-
-
-
 class Enemy {
     constructor(xPos) {
         this.x = xPos;
@@ -116,13 +112,17 @@ class Engine {
     // This method finds a random spot where there is no enemy, and puts one in there
     addEnemy() {
         var enemySpots = GAME_WIDTH / ENEMY_WIDTH;
+        console.log(enemySpots);
 
-        var enemySpot;
+        var enemySpot = -1;
         // Keep looping until we find a free enemy spot at random
-        while (!enemySpot || this.enemies[enemySpot]) {
-            enemySpot = Math.floor(Math.random() * enemySpots);
+        while (enemySpot === -1 || this.enemies[enemySpot]) {
+            var x = Math.random() * enemySpots;
+            console.log(x);
+            console.log(Math.floor(x));
+            enemySpot = Math.floor(x);
         }
-
+        console.log(enemySpot);
         this.enemies[enemySpot] = new Enemy(enemySpot * ENEMY_WIDTH);
     }
 
@@ -199,7 +199,15 @@ class Engine {
 
     isPlayerDead() {
         // TODO: fix this function!
-        return false;
+        let p = this.player;
+        let x = false;
+        this.enemies.forEach(function(enemy) {
+            if (enemy.y >= p.y - 2 * PLAYER_HEIGHT && enemy.x === p.x) {
+                console.log("hooray");
+                x = true;
+            }
+        })
+        return x;
     }
 }
 
